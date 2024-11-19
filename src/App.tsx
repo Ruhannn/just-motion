@@ -1,28 +1,38 @@
-import { useState } from "react";
+import { motion } from "motion/react";
+import { useRef } from "react";
+
 export default function App() {
-  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const contiRef = useRef(null);
   return (
-    <div className="min-h-screen flex justify-center items-center font-sans bg-[#1a1b26] relative overflow-hidden">
-      <div
-        className="group w-[400px] cursor-pointer"
-        onMouseLeave={() =>
-          setTranslate((p) => ({
-            ...p,
-            x: Math.random() * 1400 - 700,
-            y: Math.random() * 1400 - 700,
-          }))
-        }
-      >
-        <h1 className="text-4xl text-[#c0caf5] text-center">Hello Ruhan :3</h1>
-        <img
-          className="absolute left-1/2 top-1/2 transition-all duration-300    ease-in-out rounded-lg opacity-0 group-hover:opacity-100 group-hover:!-translate-y-[150px] group-hover:!translate-x-[-50%]"
-          src="https://cdn.discordapp.com/emojis/1152696704303370371.gif?size=512&quality=lossless"
-          style={{
-            transform: `translate(${translate.x}px, ${translate.y}px)`, 
+    <div
+      ref={contiRef}
+      className="relative flex items-center justify-center min-h-screen overflow-hidden font-sans">
+      <div className="group w-[400px] cursor-pointer">
+        <h1 className="text-4xl text-center select-none">
+          Hello Ruhan :3
+        </h1>
+        <motion.img
+          drag
+          dragConstraints={contiRef}
+          // lock
+          // dragDirectionLock
+          // come back
+          // dragSnapToOrigin
+          dragElastic={1}
+          dragTransition={{
+            bounceStiffness: 20,
+            bounceDamping: 10,
           }}
+          transition={{
+            ease: [0.25, 0.1, 0.25, 1],
+            duration: 0.3,
+            type: "spring",
+          }}
+          className="rounded-lg cursor-grab"
+          src="https://cdn.discordapp.com/emojis/1152696704303370371.gif?size=512&quality=lossless"
         />
+        
       </div>
     </div>
   );
 }
-
